@@ -28,7 +28,7 @@ public final class RemoteBugsManager {
     
     private init() {}
     
-    static let shared = RemoteBugsManager()
+    static public let shared = RemoteBugsManager()
     
     public func storeBug(_ remoteBugItem: (String,URL), completion: @escaping (Error?) -> Void) {
         if let jsonData = createJSONData(description: remoteBugItem.0, imageUrl: remoteBugItem.1.absoluteString) {
