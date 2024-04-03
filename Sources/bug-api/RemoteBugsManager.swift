@@ -26,6 +26,31 @@ public final class RemoteBugsManager {
     private let integrationToken: String = "secret_mVCSP3XNO9XAgvhyfXmL7bYBsM5qxY2uKK0hC1jAPA5"
     private let databaseID: String = "82b21831560d4631976b0b11e7751bfc"
     
+    public func storeBug(_ remoteBugItem: (String,URL), completion: @escaping (Error?) -> Void) {
+        if let jsonData = createJSONData(description: remoteBugItem.0, imageUrl: remoteBugItem.1.absoluteString) {
+            let request = makeRequest(.store, data: jsonData)
+            
+            URLSession.shared.dataTask(with: request) { _, response, error in
+                if let error = error {
+                    completion(error)
+                }
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    completion(NSError(domain: "YourDomain", code: 0, userInfo: nil))
+                    return
+                }
+                
+                if httpResponse.statusCode == 200 {
+                    completion(nil)
+                } else {
+                    completion(NSError(domain: "YourDomain", code: httpResponse.statusCode, userInfo: nil))
+                }
+            }.resume()
+            
+        } else {
+            completion(NSError.init())
+        }
+    }
+    
     private func createJSONData(description: String, imageUrl: String) -> Data? {
         let parentDict: [String: Any] = ["database_id": databaseID]
         
