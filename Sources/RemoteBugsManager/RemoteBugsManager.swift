@@ -26,6 +26,10 @@ public final class RemoteBugsManager {
     private let integrationToken: String = "secret_mVCSP3XNO9XAgvhyfXmL7bYBsM5qxY2uKK0hC1jAPA5"
     private let databaseID: String = "82b21831560d4631976b0b11e7751bfc"
     
+    private init() {}
+    
+    static let shared = RemoteBugsManager()
+    
     public func storeBug(_ remoteBugItem: (String,URL), completion: @escaping (Error?) -> Void) {
         if let jsonData = createJSONData(description: remoteBugItem.0, imageUrl: remoteBugItem.1.absoluteString) {
             let request = makeRequest(.store, data: jsonData)
