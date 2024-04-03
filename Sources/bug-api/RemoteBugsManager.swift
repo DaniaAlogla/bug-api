@@ -26,4 +26,16 @@ public final class RemoteBugsManager {
     private let integrationToken: String = "secret_mVCSP3XNO9XAgvhyfXmL7bYBsM5qxY2uKK0hC1jAPA5"
     private let databaseID: String = "82b21831560d4631976b0b11e7751bfc"
     
+    
+    private func makeRequest(_ query: QueryType, data: Data? = nil) -> URLRequest {
+        var request = URLRequest(url: query.url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(integrationToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("2022-06-28", forHTTPHeaderField: "Notion-Version")
+        if let data = data {
+            request.httpBody = data
+        }
+        return request
+    }
 }
