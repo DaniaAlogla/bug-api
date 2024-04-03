@@ -23,7 +23,8 @@ let package = Package(
             name: "bug-api",
             dependencies: [
                 .product(name: "FirebaseStorage", package: "Firebase")
-            ]),
+            ],
+            path: "Sources"),
         .testTarget(
             name: "bug-apiTests",
             dependencies: ["bug-api"]),
