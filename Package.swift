@@ -11,11 +11,19 @@ let package = Package(
             name: "bug-api",
             targets: ["bug-api"]),
     ],
+    dependencies: [
+        .package(name: "Firebase",
+                url: "https://github.com/firebase/firebase-ios-sdk.git",
+                from: "8.0.0"),
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "bug-api"),
+            name: "bug-api",
+            dependencies: [
+                .product(name: "FirebaseStorage", package: "Firebase")
+            ]),
         .testTarget(
             name: "bug-apiTests",
             dependencies: ["bug-api"]),
