@@ -51,6 +51,8 @@ public final class RemoteBugsManager {
         }
     }
     
+    // MARK: - Helpers
+    
     private func createJSONData(description: String, imageUrl: String) -> Data? {
         let parentDict: [String: Any] = ["database_id": databaseID]
         
