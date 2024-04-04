@@ -8,9 +8,9 @@
 import Foundation
 import FirebaseStorage
 
-class FirebaseStorageManager {
+public class FirebaseStorageManager {
     
-    static let shared = FirebaseStorageManager()
+    static public let shared = FirebaseStorageManager()
     
     private let storageRef = Storage.storage().reference()
 
@@ -35,9 +35,7 @@ class FirebaseStorageManager {
             }
         }
     }
-    
-    // MARK: - Helpers
-    
+        
     private func putData(in imageRef: StorageReference ,imageData: Data, completion: @escaping (Error?) -> Void){
         imageRef.putData(imageData, metadata: nil) { (metadata, error) in
             guard let _ = metadata else {
