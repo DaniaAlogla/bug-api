@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Dania Alogla on 25/09/1445 AH.
 //
@@ -28,6 +28,18 @@ class FirebaseStorageManager {
                 return
             }
             completion(nil)
+        }
+    }
+    
+    private func downloadURL(from imageRef: StorageReference, completion: @escaping (Result<URL, Error>) -> Void) {
+        imageRef.downloadURL { (url, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let url = url {
+                completion(.success(url))
+            } else {
+                completion(.failure(NSError(domain: "com.example.app", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to get download URL"])))
+            }
         }
     }
     
