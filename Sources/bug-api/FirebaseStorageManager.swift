@@ -12,7 +12,29 @@ class FirebaseStorageManager {
     
     static let shared = FirebaseStorageManager()
     
+    private let storageRef = Storage.storage().reference()
+
     private init() {}
+    
+    public func getImageURL(for imageData: Data, completion: @escaping (Result<URL, Error>) -> Void) {
+        let imageName = "\(UUID().uuidString).jpg"
+        let imageRef = storageRef.child("images/\(imageName)")
+        
+        putData(in: imageRef, imageData: imageData) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                self.downloadURL(from: imageRef) { result in
+                    switch result {
+                    case let .success(url):
+                        completion(.success(url))
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
     
     // MARK: - Helpers
     
