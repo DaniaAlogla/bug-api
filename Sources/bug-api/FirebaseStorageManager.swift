@@ -10,4 +10,8 @@ import FirebaseStorage
 
 class FirebaseStorageManager {
     
+    static let shared = FirebaseStorageManager()
+        
+    private init() {}
+    
 }
