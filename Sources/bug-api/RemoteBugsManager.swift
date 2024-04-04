@@ -55,6 +55,33 @@ public final class RemoteBugsManager {
         }
     }
     
+    public func getNumberOfBugs(completion: @escaping (Int?,Error?) -> Void){
+        let request = makeRequest(.retrieve)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching database contents:", error ?? "Unknown error")
+                completion(nil, error)
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                if let results = json?["results"] as? [[String: Any]] {
+                    let rowCount = results.count
+                    completion(rowCount,nil)
+                } else {
+                    print("Error parsing response.")
+                    completion(nil,error)
+                }
+            } catch {
+                print("Error parsing response:", error)
+                completion(nil, error)
+            }
+        }.resume()
+        
+    }
+    
     // MARK: - Helpers
     
     private func createJSONData(description: String, imageUrl: String) -> Data? {
